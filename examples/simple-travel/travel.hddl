@@ -5,7 +5,7 @@
         city airport - object
     )
 
-	(:predicates (airport ?x - city ?xc - airport)
+	(:predicates (airport-city ?x - city ?xc - airport)
 				(ticket ?x - airport ?y - airport)
 				(at ?x - object)
 				(longDistance ?x ?y - object)
@@ -42,19 +42,23 @@
       :parameters (?x ?y ?ax ?ay - object)
       :task (travel ?x ?y)
       :precondition (and (at ?x) (longDistance ?x ?y) 
-                     (airport ?ax ?x) (airport ?ay ?y) )					 
-      :subtasks (and (task0 (getTicket ?ax ?ay ?x ?y))
-                     (task1 (travel ?x ?ax))
-                     (task2 (fly ?ax ?ay ?x ?y))
-                     (task3 (travel ?ay ?y)))
-      :ordering (and (task0 < task2) (task0 < task2)
-                     (task2 < task3) )
+                     (airport-city ?ax ?x) (airport-city ?ay ?y) )					 
+      :ordered-subtasks (and (getTicket ?ax ?ay ?x ?y)
+                     (travel ?x ?ax)
+                     (fly ?ax ?ay ?x ?y)
+                     (travel ?ay ?y))
+    ;   :subtasks (and (task0 (getTicket ?ax ?ay ?x ?y))
+    ;                  (task1 (travel ?x ?ax))
+    ;                  (task2 (fly ?ax ?ay ?x ?y))
+    ;                  (task3 (travel ?ay ?y)))
+    ;   :ordering (and (< task0 task2) (< task1 task2)
+    ;                  (< task2 task3) )
    )
    
    (:action getTicket
 	   :parameters (?x ?y ?xc ?yc - object)
-       :precondition (and (airport ?x ?xc)
-          (airport ?y ?yc)
+       :precondition (and (airport-city ?x ?xc)
+          (airport-city ?y ?yc)
          )
     
        :effect (and (ticket ?x ?y))
@@ -63,8 +67,8 @@
 
  	(:action fly 
 	   :parameters (?x ?y ?x1 ?y1 - object)
- 	   :precondition (and (airport ?x ?x1)
- 	    (airport ?y ?y1)
+ 	   :precondition (and (airport-city ?x ?x1)
+ 	    (airport-city ?y ?y1)
  	    (ticket ?x ?y)
  	    (at ?x)
  	   )

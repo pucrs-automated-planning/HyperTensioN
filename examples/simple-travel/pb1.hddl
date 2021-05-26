@@ -10,9 +10,9 @@
 	 
 	 (:init 
  	    (at portoalegre)
-     	(airport poa portoalegre)
-         (airport gru saopaulo)
-         (airport lhr london)
+     	(airport-city poa portoalegre)
+         (airport-city gru saopaulo)
+         (airport-city lhr london)
          (longDistance portoalegre saopaulo)
          (longDistance portoalegre london)
  		 (longDistance saopaulo london)
